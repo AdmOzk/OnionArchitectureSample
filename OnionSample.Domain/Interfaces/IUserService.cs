@@ -1,12 +1,15 @@
-﻿using System;
+﻿using OnionSample.Domain.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace OnionSample.Domain.Interfaces
 {
-    internal interface IUserService
+    public interface IUserService
     {
+        Task<User> GetByIdAsync(int id);
+        Task<IEnumerable<User>> GetAllAsync();
+        Task<User> CreateAsync(User user);
+        Task UpdateAsync(User user);
+        Task DeleteAsync(int id);
     }
 }

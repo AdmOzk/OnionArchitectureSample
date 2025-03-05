@@ -7,10 +7,9 @@ namespace OnionSample.Application.Interfaces
     public interface IProductAppService
     {
         Task<ProductDto> GetByIdAsync(int id);
-        Task<IEnumerable<ProductDto>> GetAllProductsAsync();
-        Task<ProductDto> CreateProductAsync(ProductDto productDto);
-        Task UpdateProductForSellerAsync(ProductDto productDto, int sellerId);
-        Task UpdateProductForAdminAsync(ProductDto productDto);
-        Task<string> PurchaseProductAsync(int productId, int quantity);
+        Task<IEnumerable<ProductDto>> GetAllAsync();
+        Task<ProductDto> CreateAsync(ProductDto productDto);
+        Task UpdateAsync(ProductDto productDto);
+        Task DeleteAsync(int id);
     }
 }

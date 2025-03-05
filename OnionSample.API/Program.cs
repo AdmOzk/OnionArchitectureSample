@@ -8,17 +8,14 @@ using OnionSample.Application.Mapping;
 using OnionSample.Application.Services;
 using OnionSample.Domain.Interfaces;
 using OnionSample.Domain.Services;
-using OnionSample.Persistence;
-using OnionSample.Infrastructure;
 using OnionSample.Infrastructure.Repositories;
 using OnionSample.Persistence.Context;
-using OnionSample.Persistence.Repositories;
 using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// *CORS Configuration*
+// CORS Configuration
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins",
@@ -28,11 +25,11 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader());
 });
 
-// *Database Context*
+// Database Context (Infrastructure)
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// *Controller and Swagger Registrations*
+// Controllers & Swagger
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -48,7 +45,6 @@ builder.Services.AddSwaggerGen(options =>
             Email = "support@example.com",
         }
     });
-
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -58,43 +54,34 @@ builder.Services.AddSwaggerGen(options =>
         In = ParameterLocation.Header,
         Description = "JWT Authorization header using the Bearer scheme. Example: \"Bearer {token}\""
     });
-
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
             new OpenApiSecurityScheme
             {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
             },
-            new string[] {}
+            new string[] { }
         }
     });
 });
 
-// *Repository Registrations*
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+// Repository Registrations (Infrastructure)
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-// *Domain Service Registration*
-builder.Services.AddScoped<IProductService, ProductService>();  // Domain layer
+// Domain Service Registrations (Domain layer)
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
-// *Application Service Registration*
-builder.Services.AddScoped<IProductAppService, ProductAppService>();  // Application layer
+// Application Service Registrations (Application layer)
+builder.Services.AddScoped<IProductAppService, ProductAppService>();
+builder.Services.AddScoped<IUserAppService, UserAppService>();
 
-// *Other Application Service Registrations (for Users, Cart, etc.)*
-// builder.Services.AddScoped<IUserService, UserService>();
-// builder.Services.AddScoped<IUserAppService, UserAppService>();
-// ... etc.
-
-// *Authentication and Authorization*
-builder.Services.AddScoped<IPasswordHasher<OnionSample.Domain.Entities.User>, PasswordHasher<OnionSample.Domain.Entities.User>>();
-
+// AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
+// JWT Authentication Configuration (if needed)
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = jwtSettings["Key"];
 builder.Services.AddAuthentication(options =>
@@ -115,6 +102,9 @@ builder.Services.AddAuthentication(options =>
         RoleClaimType = ClaimTypes.Role
     };
 });
+
+builder.Services.AddScoped<IPasswordHasher<OnionSample.Domain.Entities.User>, PasswordHasher<OnionSample.Domain.Entities.User>>();
+
 
 var app = builder.Build();
 

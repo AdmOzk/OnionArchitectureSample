@@ -1,4 +1,6 @@
 ﻿using OnionSample.Application.DTOs;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OnionSample.Application.Interfaces
 {
@@ -6,7 +8,7 @@ namespace OnionSample.Application.Interfaces
     {
         Task<UserDto> GetByIdAsync(int id);
         Task<IEnumerable<UserDto>> GetAllAsync();
-        Task CreateAsync(UserDto userDto);
+        Task<UserDto> CreateAsync(UserDto userDto);
         Task UpdateAsync(UserDto userDto);
         Task DeleteAsync(int id);
     }

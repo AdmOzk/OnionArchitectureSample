@@ -1,4 +1,6 @@
 ﻿using OnionSample.Domain.Entities;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OnionSample.Domain.Interfaces
 {

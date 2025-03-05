@@ -7,7 +7,7 @@
         public string LastName { get; set; }
         public string EmailAddress { get; set; }
         public string PasswordHash { get; set; }
-        public string Roles { get; set; }
+        public string Role { get; set; } = "User";
 
         // Optional fields
         public DateTime? DateOfBirth { get; set; }

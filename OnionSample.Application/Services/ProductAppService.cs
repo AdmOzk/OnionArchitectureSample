@@ -10,7 +10,7 @@ namespace OnionSample.Application.Services
 {
     public class ProductAppService : IProductAppService
     {
-        // This is the domain service (implementation in the Domain layer)
+        // Use the domain service (business logic on domain entities)
         private readonly IProductService _domainProductService;
         private readonly IMapper _mapper;
         public ProductAppService(IProductService domainProductService, IMapper mapper)
@@ -19,33 +19,21 @@ namespace OnionSample.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<ProductDto> CreateProductAsync(ProductDto productDto)
+        public async Task<ProductDto> CreateAsync(ProductDto productDto)
         {
             var product = _mapper.Map<Product>(productDto);
-            var createdProduct = await _domainProductService.CreateProductAsync(product);
-            return _mapper.Map<ProductDto>(createdProduct);
+            var created = await _domainProductService.CreateAsync(product);
+            return _mapper.Map<ProductDto>(created);
         }
 
-        public async Task UpdateProductForSellerAsync(ProductDto productDto, int sellerId)
+        public async Task DeleteAsync(int id)
         {
-            var product = _mapper.Map<Product>(productDto);
-            await _domainProductService.UpdateProductForSellerAsync(product, sellerId);
+            await _domainProductService.DeleteAsync(id);
         }
 
-        public async Task UpdateProductForAdminAsync(ProductDto productDto)
+        public async Task<IEnumerable<ProductDto>> GetAllAsync()
         {
-            var product = _mapper.Map<Product>(productDto);
-            await _domainProductService.UpdateProductForAdminAsync(product);
-        }
-
-        public async Task<string> PurchaseProductAsync(int productId, int quantity)
-        {
-            return await _domainProductService.PurchaseProductAsync(productId, quantity);
-        }
-
-        public async Task<IEnumerable<ProductDto>> GetAllProductsAsync()
-        {
-            var products = await _domainProductService.GetAllProductsAsync();
+            var products = await _domainProductService.GetAllAsync();
             return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
 
@@ -53,6 +41,12 @@ namespace OnionSample.Application.Services
         {
             var product = await _domainProductService.GetByIdAsync(id);
             return _mapper.Map<ProductDto>(product);
+        }
+
+        public async Task UpdateAsync(ProductDto productDto)
+        {
+            var product = _mapper.Map<Product>(productDto);
+            await _domainProductService.UpdateAsync(product);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using OnionSample.Domain.Entities;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace OnionSample.Domain.Interfaces
@@ -10,6 +11,8 @@ namespace OnionSample.Domain.Interfaces
         Task AddAsync(User user);
         Task UpdateAsync(User user);
         Task DeleteAsync(int id);
+
+        // Added method to get a user by email.
         Task<User> GetUserByEmailAsync(string email);
     }
 }

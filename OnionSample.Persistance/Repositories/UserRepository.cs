@@ -2,14 +2,14 @@
 using OnionSample.Domain.Entities;
 using OnionSample.Domain.Interfaces;
 using OnionSample.Persistence.Context;
-using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace OnionSample.Persistence.Repositories
+namespace OnionSample.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
         private readonly AppDbContext _context;
-
         public UserRepository(AppDbContext context)
         {
             _context = context;
@@ -47,6 +47,7 @@ namespace OnionSample.Persistence.Repositories
             }
         }
 
+        // Implementation of GetUserByEmailAsync
         public async Task<User> GetUserByEmailAsync(string email)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.EmailAddress == email);

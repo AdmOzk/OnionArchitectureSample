@@ -44,7 +44,7 @@ namespace OnionSample.API.Controllers
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,
                 EmailAddress = registerDto.Email,
-                Roles = registerDto.Roles,
+                Role = "User",
                
             };
 
@@ -95,7 +95,7 @@ namespace OnionSample.API.Controllers
                 new Claim(JwtRegisteredClaimNames.Sub, user.EmailAddress),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-                new Claim(ClaimTypes.Role, user.Roles)
+                new Claim(ClaimTypes.Role, user.Role)
             };
 
             var token = new JwtSecurityToken(
