@@ -14,7 +14,6 @@ namespace OnionSample.Domain.Services
         }
         public async Task<User> CreateAsync(User user)
         {
-            // The default role ("User") is already set in the entity initializer.
             await _userRepository.AddAsync(user);
             return user;
         }

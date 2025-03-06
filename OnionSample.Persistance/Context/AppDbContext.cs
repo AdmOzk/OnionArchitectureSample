@@ -14,7 +14,6 @@ namespace OnionSample.Persistence.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Additional configurations or constraints
             base.OnModelCreating(modelBuilder);
         }
     }

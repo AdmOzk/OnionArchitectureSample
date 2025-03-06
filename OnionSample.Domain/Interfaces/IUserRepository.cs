@@ -11,8 +11,6 @@ namespace OnionSample.Domain.Interfaces
         Task AddAsync(User user);
         Task UpdateAsync(User user);
         Task DeleteAsync(int id);
-
-        // Added method to get a user by email.
         Task<User> GetUserByEmailAsync(string email);
     }
 }

@@ -46,8 +46,6 @@ namespace OnionSample.Infrastructure.Repositories
                 await _context.SaveChangesAsync();
             }
         }
-
-        // Implementation of GetUserByEmailAsync
         public async Task<User> GetUserByEmailAsync(string email)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.EmailAddress == email);

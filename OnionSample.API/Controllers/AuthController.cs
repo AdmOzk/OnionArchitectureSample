@@ -31,14 +31,11 @@ namespace OnionSample.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
-            // Check if a user with the same email already exists.
             var existingUser = await _userRepository.GetUserByEmailAsync(registerDto.Email);
             if (existingUser != null)
             {
                 return BadRequest("A user with this email already exists.");
             }
-
-            // Create a new User entity.
             var user = new User
             {
                 FirstName = registerDto.FirstName,
@@ -51,7 +48,6 @@ namespace OnionSample.API.Controllers
             // Hash the password.
             user.PasswordHash = _passwordHasher.HashPassword(user, registerDto.Password);
 
-            // Save the user using the repository.
             await _userRepository.AddAsync(user);
 
             return Ok("User registered successfully.");
@@ -60,7 +56,6 @@ namespace OnionSample.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
-            // Retrieve user by email.
             var user = await _userRepository.GetUserByEmailAsync(loginDto.Email);
             if (user == null)
             {
